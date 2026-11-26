@@ -28,7 +28,7 @@ Let $u_n(p)$ be the probability that $G(n,p)$ has an independence root with posi
 | --- | --- | --- |
 | every $0<p<1$ | $\limsup u_n \ge 1-e^{-(1-p)^2}$, so the answer to Problem 2 is **no** | independently verified |
 | $p = 1/2$ (uniform labelled graphs) | limit points fill $[0,\ 0.2714922345\ldots]$; average over orders $\to 0$ | independently verified |
-| $p < 0.2542776$ | $u_n \to 1$: almost all graphs are **unstable** | independently verified |
+| $p < 1-s_*^{1/4} \approx 0.2542775$ | $u_n \to 1$: almost all graphs are **unstable** ($s_*$ is the first spectral value of the partial theta function) | independently verified |
 | all $p$ | five-phase classification with critical densities $p\approx0.273$ and $p\approx0.254$ | unrefereed, see [GAPS.md](GAPS.md) |
 
 The mechanism is that the largest independent sets are rare: their count has a Poisson limit. Once the graph is rescaled, the top of the independence polynomial converges to a partial theta function, and one lucky large independent set pushes a pair of roots across the imaginary axis.
