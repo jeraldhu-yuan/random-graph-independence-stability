@@ -1,0 +1,17 @@
+Act as an independent mathematical referee for “How often is a random graph's independence polynomial unstable?” Use the GitHub repository below. Check the commit supplied by the sender, or record the current main commit and work from that revision.
+
+https://github.com/jeraldhu-yuan/random-graph-independence-stability
+
+Read random-graph-stability-follow-up.md. After doing your own derivations, use verify_stability_followup.py and verify_random_stability.py to reproduce the finite checks. Brown and Cameron posed the original question as Problem 2 in https://arxiv.org/pdf/1802.02478. The earlier four-coefficient note is preserved at the following revision.
+
+https://github.com/jeraldhu-yuan/random-graph-independence-stability/tree/e49e2d90d2a43f936eb5714a6208967255799ff3
+
+Try to disprove each claim. In particular:
+
+1. For G(n,1/2), re-derive the set of subsequential limits of the probability of a strictly right-half-plane independence root. Check the uniform concentration over all lower coefficients, the adaptive choice of maximum candidate size, the off-diagonal overlap bounds, and the Poisson approximation. Examine the cases where the limiting threshold equals an integer and the construction attaining the endpoints.
+2. Audit the deterministic argument for all degrees. Check the imaginary-axis lower bound even when the maximizing coefficient is at an endpoint. Test the homotopy, uniqueness and sign of the crossing, possible roots escaping to infinity as the degree grows, and the argument for every constant term above the crossing. Look for a degree or a coefficient perturbation that defeats the claimed uniformity.
+3. Prove or refute the order-average upper and lower bounds, including partial final blocks, and the corollary for other edge probabilities. Check the odd-part partial-theta normalization and the direction and range of the Hermite–Biehler and Kostov theorems, including spectral endpoints. Evaluate the elementary proof at p=0.1 separately.
+4. Independently enclose the crossing constant and peak probability with controlled numerical error. Use a different algorithm to recompute the 86-vertex seed-6 graph's polynomial and the signs of its Hurwitz determinants. Recompute the claimed 65,600,000-vertex upper bound. Then run the supplied checker and, if feasible, the optional sample of 8,192 graphs. State which calculations you executed.
+5. Search the primary literature for prior results implying any of the claims. Check work on random clique counts, partial theta zeros, and roots of individual versus expected independence polynomials.
+
+Return separate verdicts for the uniform-graph theorem, the average-order estimate, the edge-density extensions, the numerical evidence, and priority. For each gap, cite the exact equation or sentence, explain what fails, and give the strongest result you can justify. Identify any substantial steps you could not independently verify.
