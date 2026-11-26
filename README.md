@@ -1,34 +1,67 @@
-# Instability of independence polynomials of random graphs
+# Are almost all graphs stable? No.
 
-Brown and Cameron asked whether the independence polynomial of a random graph has all its roots in the closed left half-plane with probability tending to one. These unrefereed drafts were developed with OpenAI Codex. [Brown and Cameron, Problem 2](https://www.combinatorics.org/ojs/index.php/eljc/article/download/v25i1p46/pdf/)
+**Brown–Cameron Problem 2 has a negative answer.**
 
-## How often is a random graph unstable?
+Brown and Cameron ([EJC 25(1), P1.46, 2018](https://www.combinatorics.org/ojs/index.php/eljc/article/view/v25i1p46)) asked: *are almost all graphs stable?* That is, does the independence polynomial of $G(n,p)$ have all its roots in the closed left half-plane with probability tending to one? It does not.
 
-Let $u_n$ be the probability that the independence polynomial of a uniformly random labelled graph on $n$ vertices has a root with strictly positive real part. The follow-up derives $\liminf u_n=0$ and $\limsup u_n=0.27149223459\ldots$. Every value between the two endpoints is a subsequential limit. The mean of $u_n$ over orders $1$ through $N$ is of order $1/\log N$.
+## A certificate you can check by hand
 
-At smaller fixed edge probabilities, including $p=0.1$, the follow-up proves that the probability of instability tends to one. Theorem 2 states the range of $p$.
+Take the 86-vertex graph generated from the SHAKE256 seed `BC:86:622`. Counting its independent sets by size, starting with the empty set, gives
 
-[Read the follow-up](random-graph-stability-follow-up.md) · [Download the PDF](random-graph-stability-follow-up.pdf) · [Independent referee prompt](follow-up-review-prompt.txt)
-
-Run the exact checks with Python 3 and its standard library. The second command also reproduces the sample of 8,192 graphs at 86 vertices.
-
-```sh
-python3 -B verify_stability_followup.py
-python3 -B verify_stability_followup.py --sample-86 8192
+```
+1, 86, 1810, 12478, 31706, 31559, 12792, 2225, 205, 21, 2
 ```
 
-## Earlier four-coefficient bound
+Its second Hurwitz determinant is
 
-For a uniformly random labelled graph, the manuscript gives a lower bound of $1-e^{-1/4}$ on the limsup probability of a zero with strictly positive real part. Consequently, more than 22% of graphs are unstable at arbitrarily large graph orders. The manuscript also gives a bound for every fixed edge probability between zero and one.
+$$
+21\cdot205 - 2\cdot2225 = -145 < 0,
+$$
 
-[Read the proof](random-graph-stability.md) · [Download the PDF](random-graph-stability.pdf)
+so its independence polynomial has a root in the open right half-plane. The roots are at about $2.199 \pm 9.008i$.
 
-### Reproduce the earlier finite checks
+## The full picture
 
-Run the verifier from the repository directory with Python 3.8 or later. It uses the standard library.
+Let $u_n(p)$ be the probability that $G(n,p)$ has an independence root with positive real part.
+
+| Edge probability | Behaviour of $u_n(p)$ as $n\to\infty$ | Status |
+| --- | --- | --- |
+| every $0<p<1$ | $\limsup u_n \ge 1-e^{-(1-p)^2}$, so the answer to Problem 2 is **no** | independently verified |
+| $p = 1/2$ (uniform labelled graphs) | limit points fill $[0,\ 0.2714922345\ldots]$; average over orders $\to 0$ | independently verified |
+| $p < 1-s_*^{1/4} \approx 0.2542775$ | $u_n \to 1$: almost all graphs are **unstable** ($s_*$ is the first spectral value of the partial theta function) | independently verified |
+| all $p$ | five-phase classification with critical densities $p\approx0.273$ and $p\approx0.254$ | unrefereed, see [GAPS.md](GAPS.md) |
+
+The mechanism is that the largest independent sets are rare: their count has a Poisson limit. Once the graph is rescaled, the top of the independence polynomial converges to a partial theta function, and one lucky large independent set pushes a pair of roots across the imaginary axis.
+
+## Papers
+
+1. **[Four-coefficient note](random-graph-stability.md)** ([PDF](random-graph-stability.pdf)): the negative answer to Problem 2, for every fixed $p$.
+2. **[Follow-up](random-graph-stability-follow-up.md)** ([PDF](random-graph-stability-follow-up.pdf)): the exact set of limit points at $p=1/2$, and $u_n\to1$ for $p<0.254$.
+3. **[Version 3](random-graph-stability-v3.md)** ([PDF](random-graph-stability-v3.pdf)): a limit law for the roots, the classification of every fixed edge probability, and unimodality of the independent-set sequence (Makowsky–Rakita Problem 1.1). Open points are listed in **[GAPS.md](GAPS.md)**.
+
+## Verification status
+
+| Document | What was checked independently |
+| --- | --- |
+| Four-coefficient note | Every step re-derived. The 86-vertex graph recounted by two separate methods. The right-half-plane roots certified by an exact Routh table. The bound at 260,000 vertices recomputed in exact rational arithmetic. |
+| Follow-up | Sections 1–6 re-derived. The constants $\xi,\tau,L$ enclosed with separate rational code. The 65.6M-vertex bound and the 8,192-graph sample reproduced exactly. |
+| Version 3 | The verifier passes. The predicted stable band of the limiting function was cross-checked with exact Routh counts on true finite-size coefficients up to degree 400. Sections 6–8 (boundary perturbation, adjacent orders, critical averaging rates) still need an expert referee. |
+
+## Reproduce
+
+Python 3.8+ and the standard library are enough. Run these from the repository root.
 
 ```sh
-python3 verify_random_stability.py
+python3 verify_random_stability.py              # four-coefficient note, under 1 s
+python3 -B verify_stability_followup.py         # follow-up, under 1 s
+python3 -B verify_stability_followup.py --sample-86 8192   # optional sample, a few minutes
+python3 -B verify_v3.py                         # version 3, about 1 min
 ```
 
-The script counts the independent sets of the specified 86-vertex graph by two methods, checks the Hurwitz determinant and a disk containing a zero, and verifies a finite probability bound at 260,000 vertices. The manuscript gives the proof of the asymptotic claim. [Verifier source](verify_random_stability.py)
+## Authorship and disclosure
+
+The mathematics and the verifiers were generated with OpenAI Codex, prompted by Jerald Hu Yuan. An independent AI referee (Claude) re-derived the proofs and reproduced the computations with separate code. None of this has been peer reviewed. Corrections and expert review are very welcome: please open an issue.
+
+## Reference
+
+J. I. Brown and B. Cameron, *On the Stability of Independence Polynomials*, Electron. J. Combin. **25**(1) (2018), #P1.46, Problem 2. [doi:10.37236/7280](https://doi.org/10.37236/7280)
