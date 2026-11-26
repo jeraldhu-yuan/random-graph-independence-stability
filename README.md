@@ -65,3 +65,7 @@ The mathematics and the verifiers were generated with OpenAI Codex, prompted by 
 ## Reference
 
 J. I. Brown and B. Cameron, *On the Stability of Independence Polynomials*, Electron. J. Combin. **25**(1) (2018), #P1.46, Problem 2. [doi:10.37236/7280](https://doi.org/10.37236/7280)
+
+## Companion paper on random trees
+
+A separate preprint studies how the most common independent-set size varies across uniformly random labelled trees. Its proof is awaiting independent review. [Manuscript](random-tree-mode/manuscript.md) · [PDF](random-tree-mode/manuscript.pdf) · [Verifier and audit materials](random-tree-mode)
